@@ -1,21 +1,83 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<nav class="navbar navbar-default">
+      <div class="navbar-header">
+           <span class="navbar-brand">SMS MetaData Form</span>
+      </div>
+  
+</nav>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" ></ngx-loading>
+<div class="container">
+<div class="row">
+  <div class="col-md-3">
+    <label for="purgeDate">Purge Date</label>
+    <input type="text" placeholder="Select Purge Date" class="form-control" bsDatepicker>
+  </div>
+  <div class="col-md-3">
+    <label for="effectiveDate">Effective Date</label>
+    <input type="text" placeholder="Select Effective Date" class="form-control" bsDatepicker>
+  </div>
+  <div class="col-md-3">
+    <label for="mandatory">Mandatory </label> 
+    <input type="radio" name="mandatory" id="mandatory" value="1" [formControl]="mandatoryControl"> Yes  
+    <input type="radio" name="mandatory" id="mandatory" value="0" [formControl]="mandatoryControl"> No
+  </div>
+  <div class="col-md-3">
+      <label for="promoted">Promoted </label> 
+       <input type="radio" name="promoted" id="promoted" value="1" [formControl]="promotedControl"> Yes
+       <input type="radio" name="promoted" id="promoted" value="0" [formControl]="promotedControl"> No
+    </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="row">
+  <div class="col-md-3">
+      <div class="form-group">
+          <label for="author">Authored by </label>
+          <select class="form-control" id="author" name="author" [(ngModel)]="author" >
+            <option *ngFor="let author of authors" [value]="author">{{author.description}}</option>
+          </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="Language">Language</label>
+            <select class="form-control" id="language" name="language" [(ngModel)]="language">
+              <option *ngFor="let language of languages" [value]="language">{{language.description}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+              <label for="geography">Geography</label>
+              <select class="form-control" id="geography" name="geography" [(ngModel)]="geography">
+                <option *ngFor="let geography of geographies" [value]="geography">{{geography.description}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select class="form-control" id="type" name="type" [(ngModel)]="type">
+                  <option *ngFor="let type of types" [value]="type">{{type.description}}</option>
+                </select>
+            </div>
+          </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="contentType">Content Type</label>
+            <select class="form-control" id="contentType" name="contentType" [(ngModel)]="contentType">
+              <option *ngFor="let contentType of contentTypes" [value]="contentType">{{contentType.description}}</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+              <label for="templateType">Template Type</label>
+              <select class="form-control" id="templateType" name="templateType" [(ngModel)]="templateType">
+                <option *ngFor="let templateType of templateTypes" [value]="templateType">{{templateType.description}}</option>
+              </select>
+          </div>
+        </div>
+</div>
+</div>
 
-<router-outlet></router-outlet>
+

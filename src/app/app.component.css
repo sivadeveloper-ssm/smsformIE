@@ -1,0 +1,10 @@
+@import  '~ngx-bootstrap/datepicker/bs-datepicker.css';
+
+.navbar-header {
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+}
+.navbar-brand {float:none;}
+
