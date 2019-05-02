@@ -4,17 +4,18 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import {AppBootstrapModule} from './Shared/app-bootstrap.module';
+
 
 import {DataService} from './services/dataservice';
 import {HttpClientModule} from '@angular/common/http';
 
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { ArrayClass } from './Class/ArrayClass';
-import { Helperclass } from './Class/helperclass';
 
-
+//Third party modules
 import {NgxLoadingModule} from 'ngx-loading';
+import {AppBootstrapModule} from './Shared/app-bootstrap.module';
+import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -27,12 +28,12 @@ import {NgxLoadingModule} from 'ngx-loading';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxLoadingModule.forRoot({})
+    NgxLoadingModule.forRoot({}),
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
     DataService,
-    ArrayClass,
-    Helperclass
+    ArrayClass
   ],
   bootstrap: [AppComponent]
 })

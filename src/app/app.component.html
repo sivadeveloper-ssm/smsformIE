@@ -5,78 +5,194 @@
   
 </nav>
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" ></ngx-loading>
+<div *ngIf="isDataLoaded">
 <div class="container">
 <div class="row">
   <div class="col-md-3">
+    <div class="form-group">
     <label for="purgeDate">Purge Date</label>
-    <input type="text" placeholder="Select Purge Date" class="form-control" bsDatepicker>
+    <input type="text" placeholder="Select Purge Date" id="purgeDate" class="form-control" [(ngModel)]="purgeDate" bsDatepicker>
+    </div>
   </div>
   <div class="col-md-3">
+      <div class="form-group">
     <label for="effectiveDate">Effective Date</label>
-    <input type="text" placeholder="Select Effective Date" class="form-control" bsDatepicker>
+    <input type="text" placeholder="Select Effective Date" class="form-control" id="effectiveDate" [(ngModel)]="effectiveDate" bsDatepicker>
+    </div>
   </div>
   <div class="col-md-3">
-    <label for="mandatory">Mandatory </label> 
-    <input type="radio" name="mandatory" id="mandatory" value="1" [formControl]="mandatoryControl"> Yes  
-    <input type="radio" name="mandatory" id="mandatory" value="0" [formControl]="mandatoryControl"> No
+     <label for="mandatory">Mandatory </label> 
+     <div class="form-group">
+    <input type="radio"  value="1" [(ngModel)]="mandatory" (change)="setMadatoryRadioButton()" > Yes  
+    <input type="radio"  value="0" [(ngModel)]="mandatory" (change)="setMadatoryRadioButton()" > No
+    </div>
   </div>
   <div class="col-md-3">
       <label for="promoted">Promoted </label> 
-       <input type="radio" name="promoted" id="promoted" value="1" [formControl]="promotedControl"> Yes
-       <input type="radio" name="promoted" id="promoted" value="0" [formControl]="promotedControl"> No
+      <div class="form-group">
+       <input type="radio" name="promoted" id="promoted" value="1"  [(ngModel)]="promoted" (change)="setPromotedRadioButton()"> Yes
+       <input type="radio" name="promoted" id="promoted" value="0" [(ngModel)]="promoted" (change)="setPromotedRadioButton()" > No
+       </div>
     </div>
 </div>
+
+
 <div class="row">
   <div class="col-md-3">
       <div class="form-group">
           <label for="author">Authored by </label>
-          <select class="form-control" id="author" name="author" [(ngModel)]="author" >
-            <option *ngFor="let author of authors" [value]="author">{{author.description}}</option>
+          <select class="form-control" id="author" name="author" [(ngModel)]="authorModel" (change)="onAuthorSelect()">
+            <option value="" selected disabled>Select Author</option>
+            <option *ngFor="let author of authors" [ngValue]="author">{{author.description}}</option>
           </select>
       </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label for="Language">Language</label>
-            <select class="form-control" id="language" name="language" [(ngModel)]="language">
-              <option *ngFor="let language of languages" [value]="language">{{language.description}}</option>
+            <label for="language">Language</label>
+            <select class="form-control" id="language" name="language" [(ngModel)]="languageModel" (change)="onLanguageSelect()">
+                <option value="" selected disabled>Select Language</option>
+              <option *ngFor="let language of languages" [ngValue]="language">{{language.description}}</option>
             </select>
         </div>
       </div>
       <div class="col-md-3">
           <div class="form-group">
               <label for="geography">Geography</label>
-              <select class="form-control" id="geography" name="geography" [(ngModel)]="geography">
-                <option *ngFor="let geography of geographies" [value]="geography">{{geography.description}}</option>
+              <select class="form-control" id="geography" name="geography" [(ngModel)]="geographyModel" (change)="onGeographySelect()">
+                  <option value="" selected disabled>Select Geography</option>
+                <option *ngFor="let geography of geographies" [ngValue]="geography">{{geography.description}}</option>
               </select>
           </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="type">Type</label>
-                <select class="form-control" id="type" name="type" [(ngModel)]="type">
-                  <option *ngFor="let type of types" [value]="type">{{type.description}}</option>
+                <select class="form-control" id="type" name="type" [(ngModel)]="typeModel" (change)="setContentAndTemplateType()">
+                    <option value="" selected disabled>Select Type</option>
+                  <option *ngFor="let type of types" [ngValue]="type" >{{type.description}}</option>
                 </select>
             </div>
           </div>
 </div>
+
 <div class="row">
     <div class="col-md-3">
         <div class="form-group">
             <label for="contentType">Content Type</label>
-            <select class="form-control" id="contentType" name="contentType" [(ngModel)]="contentType">
-              <option *ngFor="let contentType of contentTypes" [value]="contentType">{{contentType.description}}</option>
+            <select class="form-control" id="contentType" name="contentType" [(ngModel)]="contentTypeModel" disabled>
+                <option value="" selected disabled>Select Content Type</option>
+              <option *ngFor="let contentType of contentTypes" [ngValue]="contentType">{{contentType.description}}</option>
             </select>
         </div>
       </div>
       <div class="col-md-3">
           <div class="form-group">
               <label for="templateType">Template Type</label>
-              <select class="form-control" id="templateType" name="templateType" [(ngModel)]="templateType">
-                <option *ngFor="let templateType of templateTypes" [value]="templateType">{{templateType.description}}</option>
+              <select class="form-control" id="templateType" name="templateType" [(ngModel)]="templateTypeModel" disabled>
+                  <option value="" selected disabled>Select Template Type</option>
+                <option *ngFor="let templateType of templateTypes" [ngValue]="templateType">{{templateType.description}}</option>
               </select>
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="citations" >Select Citations</label>
+          <ng-multiselect-dropdown  class="dropdown"
+            [placeholder] = "'Select'"
+            [data] = "citations" 
+            [(ngModel)] = "citation"
+            [settings] = "citationSettings"
+            (onSelect) = "setXmetalAndCitationRelatedFields()"
+            (onDeSelect) = "setXmetalAndCitationRelatedFields()">
+        </ng-multiselect-dropdown> 
+      </div>
+        </div>
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="form-group">
+      <label for="areas">Select Areas</label>
+      <ng-multiselect-dropdown 
+        [placeholder]="'Select Areas'"
+        [data]="areas"
+        [(ngModel)]="area"
+        [settings] ="dropdownSettings"
+        (onSelect) = "onAreaSelect()"
+        (onDeSelect) = "onAreaSelect()"
+        ></ng-multiselect-dropdown>
+    </div>
+  </div>
+  <div class="col-md-3">
+      <div class="form-group">
+        <label for="product">Select Products</label>
+        <ng-multiselect-dropdown 
+          [placeholder]="'Select Products'"
+          [data]="products"
+          [(ngModel)]="product"
+          [settings] ="dropdownSettings"
+          (onSelect) = "onProductSelect()"
+          (onDeSelect) = "onProductSelect()"></ng-multiselect-dropdown>
+      </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+          <label for="topic">Select Topics</label>
+          <ng-multiselect-dropdown 
+            [placeholder]="'Select Topics'"
+            [data]="topics"
+            [(ngModel)]="topic"
+            [settings] ="dropdownSettings"
+            (onSelect) = "onTopicSelect()"
+            (onDeSelect)= "onTopicSelect()"></ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="col-md-3">
+          <div class="form-group">
+            <label for="industry">Select Industries</label>
+            <ng-multiselect-dropdown 
+              [placeholder]="'Select Industries'"
+              [data]="industries"
+              [(ngModel)]="industry"
+              [settings] ="dropdownSettings"
+              (onSelect) = "onIndustrySelect()"
+              (onDeSelect) = "onIndustrySelect()"></ng-multiselect-dropdown>
+          </div>
+        </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+          <label for="governingbody">Select GoverningBodies</label>
+          <ng-multiselect-dropdown 
+            [placeholder]="'Select GoverningBodies'"
+            [data]="governingBodies"
+            [(ngModel)]="governingBody"
+            [settings] ="dropdownSettings"
+            (onSelect) = "onGoverningBodySelect()"
+            (onDeSelect) = "onGoverningBodySelect()"></ng-multiselect-dropdown>
+        </div>
+      </div>
+</div>
+<div>
+    <input type="hidden" id="xmetalCitation" [value]="xmetalCitation" />
+    <input type="hidden" id="xmetalArea" [value]="xmetalArea" />
+    <input type="hidden" id="xmetalTopic" [value]="xmetalTopic" />
+    <input type="hidden" id="xmetalGoverningbody" [value]="xmetalGoverningbody" />
+    <input type="hidden" id="xmetalIndustries" [value]="xmetalIndustries" />
+    <input type="hidden" id="xmetalProduct" [value]="xmetalProduct" />
+    <input type="hidden" id="xmetalAuthor" [value]="xmetalAuthor" />
+    <input type="hidden" id="xmetalLanguage" [value]="xmetalLanguage" />
+    <input type="hidden" id="xmetalType" [value]="xmetalType" />
+    <input type="hidden" id="xmetalContentType" [value]="xmetalContentType" />
+    <input type="hidden" id="xmetalGeography" [value]="xmetalGeography" />
+    <input type="hidden" id="xmetalTemplatetype" [value]="xmetalTemplatetype" />
+    <input type="hidden" id="xmetalMandatory" [value]="xmetalMandatory" />
+    <input type="hidden" id="xmetalPromoted" [value]="xmetalPromoted" />
+</div>
 </div>
 </div>
 

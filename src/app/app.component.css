@@ -8,3 +8,7 @@
 }
 .navbar-brand {float:none;}
 
+.dropdown {
+    min-width: 300px;
+    max-width: 600px;
+}
